@@ -32,7 +32,7 @@ RUN chown -R wordpress. /run/php && \
 COPY config/wp-config.php /usr/share/nginx/www/wp-config.php
 COPY config/supervisord.conf /etc/supervisord.conf
 COPY config/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
-COPY config/www.conf /etc/php/7.0/fpm/pool.d
+# COPY config/www.conf /etc/php/7.0/fpm/pool.d
 
 # ----------------------------------------------------------
 # PHP-fpm Configgi
