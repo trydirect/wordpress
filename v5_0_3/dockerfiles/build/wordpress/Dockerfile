@@ -28,8 +28,6 @@ RUN mkdir /run/php
 RUN chown -R wordpress. /run/php && \
     chown -R wordpress. /var/log/supervisor
 
-# session permissions
-RUN chown -R wordpress. /var/lib/php
 # Copy wp-config
 COPY config/wp-config.php /usr/share/nginx/www/wp-config.php
 COPY config/supervisord.conf /etc/supervisord.conf
@@ -50,5 +48,4 @@ RUN sed -i -e"s/^;opcache.enable\s*=\s*0/opcache.enable = 1/; s/^;opcache.max_ac
 CMD ["/usr/bin/supervisord", "--configuration=/etc/supervisord.conf"]
 
 VOLUME ["/var/www/html", "/var/log"]
-USER wordpress
 EXPOSE 9000
