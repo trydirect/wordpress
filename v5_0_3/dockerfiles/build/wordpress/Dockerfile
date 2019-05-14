@@ -28,6 +28,8 @@ RUN mkdir /run/php
 RUN chown -R wordpress. /run/php && \
     chown -R wordpress. /var/log/supervisor
 
+# session permissions
+RUN chown -R wordpress. /var/lib/php
 # Copy wp-config
 COPY config/wp-config.php /usr/share/nginx/www/wp-config.php
 COPY config/supervisord.conf /etc/supervisord.conf
@@ -49,4 +51,4 @@ CMD ["/usr/bin/supervisord", "--configuration=/etc/supervisord.conf"]
 
 VOLUME ["/var/www/html", "/var/log"]
 USER wordpress
-EXPOSE 80 443 9000
+EXPOSE 9000
