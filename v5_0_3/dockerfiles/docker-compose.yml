@@ -20,7 +20,7 @@ services:
          - wp-db:/var/lib/mysql
 
   wordpress:
-    image: wordpress_5_0_3
+    image: trydirect/wordpress:5_0_3
     build: build/wordpress
     container_name: wordpress
     restart: always
@@ -41,12 +41,12 @@ services:
   # entry point
   nginx:
     image: trydirect/nginx:latest
-    container_name: nginx_wp
+    container_name: nginx
     restart: always
     depends_on:
       - wordpress
     ports:
-      - "81:80"
+      - "80:80"
     links:
       - wordpress
     volumes:
