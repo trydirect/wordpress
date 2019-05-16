@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y software-properties-common \
                       php-curl php-gd php-intl php-pear php-imagick php-imap php-memcache \
 					  php-pspell php-recode php-mcrypt php-tidy php-xmlrpc php-xsl supervisor
 
-RUN groupadd -r -g 1000 wordpress; useradd -r -u 1000 -g 1000 -m -c "app account" -d /home/wordpress -s /bin/bash wordpress
+RUN groupadd -r -g 2000 wordpress; useradd -r -u 2000 -g 2000 -m -c "app account" -d /home/wordpress -s /bin/bash wordpress
 
 WORKDIR /var/www/html
 # Install Wordpress
