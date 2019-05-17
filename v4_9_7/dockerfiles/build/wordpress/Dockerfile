@@ -205,6 +205,8 @@ ADD ./scripts/letsencrypt-auto /opt/letsencrypt/letsencrypt-auto
 
 RUN chmod +x /opt/letsencrypt/letsencrypt-auto; /opt/letsencrypt/letsencrypt-auto  --os-packages-only --install-only --non-interactive;
 
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # ===============================================================================
 # Volume Mounting
