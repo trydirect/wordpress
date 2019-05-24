@@ -213,5 +213,8 @@ RUN chmod +x /opt/letsencrypt/letsencrypt-auto; /opt/letsencrypt/letsencrypt-aut
 # - Log
 #
 
+# Clean up
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 # Mount the volumes
 VOLUME ["/usr/share/nginx/www", "/var/log"]
