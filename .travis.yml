@@ -1,39 +1,37 @@
 language: python
 python:
-  - 2.7
-
+- 2.7
+env:
+  matrix:
+  - DOCKER_CONTENT_TRUST=0
+  global:
+  - secure: Ok6h8nSvRAOJSqLCKVyrCIVTk8ByTjwyBsAYjlO5C5mhP1I4OiSXjC4aZW+WNYWLl9gGf/hHVPOcHwOh6fpkZBvXTXcqvYVuAA1331hgVVnhbKNVVCGz/qO+9/t6cAd5FAWAPNVxZrptOeeNdc8JHvf2naVzXVWAbIU7lSO+ykXYmJYv0T7gZCttXjv5eyjCM6uuwtWrUJZN/tADklJf0LrFQhapVrRuaQuJ8WKV+VwQl5Co57bTOaMP0umZYg4tjhMkxvwA9pWM5uiFjAXwL3Ucx6PH9fXueyH9s0Vf5ig1LM7Ry1F8NSYXWiM0rhDFlYEl1+0iPv/j2MHa9DjN2Fcuv9/g0giMaP0G8y/hVjRnWXeaR5ovbaw8HOCV7PyCswJ+WAbyX1HPpQbbkMBOv9GSiUHp0IqwV5NIYa4toZYKG6sKZUw/dRk/W2r7CZlnTY8bV6ZUfpL49lcirkmLEzuy9Xfsr0XH3YpdNxv1xIU743E5plODV7EqSQEwMJnejhHPBjcVQNYYRtE9Q5LrYI4urFGzAMjmwCMxNrSUjjLV384BpdDlZn1XZBRRCaPb6qOboi9XUVAXgd9Z+J8SAGtJCJXChOKq+QBSy6uoWLmRxQcI6BgBL9pXD83TBo+VMLYedU0Kk1Uf31gRrTN0Ec85Ei3w9vN8C/peIh24FkU=
+  - secure: jBzCzZVgfl6VJSaZb18ueG+wOm1mCvet51hTQvGqYU3MqUGBlVWyBDYk+CK71oh5X2T5YH1klICl8toylCUexfA6CtRVwoja0i3oUhHE+gHqhd6W2a4iRmzpOEsQna9RIG9W9Np8xFfpRTPEsU9ulJK5ai2CNTymb4WA5isbaeyfaCUgbNfv+AagcdDcUPOCm3W0b6HNefI8SW5gaaEs6uze6u89+by9jHjkeMDSo58UIS+KUCu0dJZfT5jb5yt8z4n+fLLOXqiDTdp9aQ+LZGzL1xTx4brzlxpkZPHubGW3N5cuWOlIul+fCrQGSoN1R8N/uOp2g3q9pfMH6bT33pwNGkG5RpLHLpBupL5pUZS36NMzEyrdLWSbfrhNDjnM4FWkxQgmD3CfuPIhcoD2aQkeFHlhXbjQvpYlVkWSfLLdDj50kd3u5MmxBtjZ+ZmFCKEJzI8Y/OvlgN4Iy7AC9Nin9le6CkErA3r4GmHaZ+DMQhlFtdOi5h29EZZkhG8HCXvFseFJuHpt9gOESMSWV4XgekSBN9DKb3SjJB1YNI6x0STHpwzZQgSPAS3J/j2IoZvlcLg72LedaB5+zVDvr6ibjhaRM8MZDpwfaaQLpvSJR6RSbYvqF+PTLBjkK/Z3nDP6xHvGzSzNRMdUuD5tALtpRNDWK+kMOhX8hqSDQgg=
 services:
-  - docker
-
+- docker
 before_install:
-  # update is required to update the repositories to see the new packages for
-  # Docker.
-  - sudo apt-get update
-  - docker-compose --version
-  - pip install docker-compose
-  - docker-compose --version
-
+- sudo apt-get update
+- docker-compose --version
+- pip install docker-compose --upgrade
+- docker-compose --version
 install:
-  - cd v5_0_3/dockerfiles
-  - docker-compose build
-  - docker-compose up -d
-  - docker-compose ps
-
+- cd v5_0_3/dockerfiles
+- docker-compose build
+- docker-compose up -d
+- docker-compose ps
 before_script:
-  - pip install requests
-  - pip install docker
-  - cd $TRAVIS_BUILD_DIR
-
+- pip install requests
+- pip install docker
+- cd $TRAVIS_BUILD_DIR
 script:
-  - python tests.py
-
+- bash ./.travis/linters.sh
+- python tests.py
 notifications:
   slack:
     rooms:
     - optimum-team:GycletOWK4Kt95GktwYwfUMp#build
-
-# safelist
-#branches:
-#  only:
-#    - master
-#    - autotests-travis
+after_success:
+- cd v5_0_3/dockerfiles
+- echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+- docker-compose images
+- docker push trydirect/wordpress:5.0.3
