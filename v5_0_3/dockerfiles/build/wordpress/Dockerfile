@@ -1,6 +1,7 @@
 FROM ubuntu:16.04
 
-MAINTAINER Optimum <info@optimum-web.com>
+LABEL maintainer="info@optimum-web.com"
+
 
 # no tty for container
 ENV DEBIAN_FRONTEND noninteractive
