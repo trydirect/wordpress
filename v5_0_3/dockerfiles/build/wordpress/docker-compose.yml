@@ -8,3 +8,4 @@ wordpress:
     DB_PASSWORD: sample
   ports:
     - "9000"
+  entrypoint: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -n

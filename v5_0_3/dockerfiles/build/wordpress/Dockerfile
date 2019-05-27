@@ -46,7 +46,5 @@ RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g; s/po
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php/7.0/fpm/php-fpm.conf
 RUN sed -i -e"s/^;opcache.enable\s*=\s*0/opcache.enable = 1/; s/^;opcache.max_accelerated_files\s*=\s*2000/opcache.max_accelerated_files = 4000/" /etc/php/7.0/fpm/php.ini
 
-CMD ["/usr/bin/supervisord", "--configuration=/etc/supervisord.conf"]
-
 VOLUME ["/var/www/html", "/var/log"]
 EXPOSE 9000

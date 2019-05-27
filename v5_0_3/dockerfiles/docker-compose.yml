@@ -38,6 +38,7 @@ services:
       - ./configs/supervisord/wordpress.conf:/etc/supervisord.conf
     ports:
       - "9000"
+    entrypoint: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -n
 
   # entry point
   nginx:
