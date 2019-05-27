@@ -49,7 +49,7 @@ mycnf = mysql.exec_run("/usr/sbin/mysqld --verbose  --help")
 # print(mycnf.output.decode())
 print(mysql.logs())
 mysql_log = mysql.logs()
-assert "Version: '5.7.25'" in mysql_log
+assert "Version: '5.7.26'" in mysql_log
 assert "mysqld: ready for connections" in mysql_log.decode()
 
 response = requests.get("http://localhost")
