@@ -10,11 +10,7 @@ services:
   wpdb:
     image: mysql:5.7
     container_name: wpdb
-    environment:
-      MYSQL_ROOT_PASSWORD: wordpress
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress
+    env_file: .env
     restart: always
     volumes:
          - wp-db:/var/lib/mysql
@@ -24,18 +20,14 @@ services:
     build: build/wordpress
     container_name: wordpress
     restart: always
-    environment:
-      HOST_NAME: localhost
-      SERVER_NAME: wordpress
-      DB_HOSTNAME: wpdb
-      DB_DATABASE: wordpress
-      DB_USER: wordpress
-      DB_PASSWORD: wordpress
+    env_file: .env
     links:
       - wpdb:db
     volumes:
       - wp:/var/www/html/WordPress-5.0.3
       - ./configs/supervisord/wordpress.conf:/etc/supervisord.conf
+      - ./configs/wordpress/wp-config.php:/var/www/html/Word Press-5.0.3/wp-config.php
+      - ./configs/php/php.ini:/etc/php/7.0/fpm/php.ini
     ports:
       - "9000"
     entrypoint: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -n
