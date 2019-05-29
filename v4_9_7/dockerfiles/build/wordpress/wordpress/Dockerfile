@@ -43,6 +43,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Update the repository sources list and finish upgrade
 RUN apt-get update && apt-get -y upgrade
+RUN groupadd -r -g 2000 wordpress; useradd -r -u 2000 -g 2000 -m -c "app account" -d /home/wordpress -s /bin/bash wordpress
 
 # ----------------------------------------------------------
 # Dependencies
