@@ -67,9 +67,8 @@ RUN apt-get install -y mysql-client \
 						python-setuptools \
 						curl \
 						git \
-						unzip;\
-                        groupadd -r -g 1000 wordpress; useradd -r -u 1000 -g 1000 -m -c "app account" -d /home/wordpress -s /bin/bash wordpress
-
+						unzip
+						
 # **Wordpress** Dependencies
 RUN apt-get install -y php5-curl \
 						php5-gd \
