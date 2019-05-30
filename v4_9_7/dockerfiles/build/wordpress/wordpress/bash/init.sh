@@ -93,9 +93,10 @@ s/localhost/$DB_HOSTNAME/
 /'LOGGED_IN_SALT'/s/put your unique phrase here/`pwgen -c -n -1 65`/
 /'NONCE_SALT'/s/put your unique phrase here/`pwgen -c -n -1 65`/" \
 /usr/share/nginx/www/wp-config-sample.php > /usr/share/nginx/www/wp-config.php
+echo "define('FS_METHOD', 'direct');" >> /usr/share/nginx/www/wp-config.php
 
 # Change `user:group` for `wp-config.php`.
-chown -R www-data:www-data /usr/share/nginx/www
+chown -R wordpress. /usr/share/nginx/www
 
 
 
