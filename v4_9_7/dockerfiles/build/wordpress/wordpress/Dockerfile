@@ -68,7 +68,7 @@ RUN apt-get install -y mysql-client \
 						curl \
 						git \
 						unzip
-						
+
 # **Wordpress** Dependencies
 RUN apt-get install -y php5-curl \
 						php5-gd \
@@ -141,8 +141,7 @@ RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g; s/po
 
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
 
-RUN sed -i -e "s/;catch_workers_output\s*=\s*yes/catch_workers_output = yes/g; s/listen\s*=\s*\/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g; s/;listen.allowed_clients\s*=\s*127.0.0.1/listen.allowed_clients = 127.0.0.1/g" \
-/etc/php5/fpm/pool.d/www.conf
+COPY ./config/php/www.conf	/etc/php5/fpm/pool.d/www.conf
 #RUN sed -i -e "s/listen\s*=\s*\/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
 #RUN sed -i -e "s/;listen.allowed_clients\s*=\s*127.0.0.1/listen.allowed_clients = 127.0.0.1/g" /etc/php5/fpm/pool.d/www.conf
 
