@@ -1,24 +1,3 @@
-# ===============================================================================
-# Dockerfile
-#   "Wordpress + Nginx + Cached + NoDB" docker image - production ready
-#
-# What's it included:
-#
-# - php-fpm
-# - Wordpress - build with the **latest** version
-# - Nginx - as reverse proxy, HTTP / HTTPS enabled.
-# - Cache - fastcgi-cache, fastcgi_cache_purge, Opcache
-# - No DB included.
-#
-# Optional
-#
-# - Deploy `letsencrypt` SSL.
-# - Deploy normal SSL.
-#
-# @link https://letsencrypt.org/ | letsencrypt
-#
-# It is based on Ubuntu 14.04 LTS
-# ===============================================================================
 
 # Set the base image to Ubuntu
 FROM ubuntu:14.04
@@ -29,10 +8,6 @@ MAINTAINER Lei SHI <foxshee@gmail.com>
 # Default HTTP and HTTPS ports
 EXPOSE 80 443
 
-
-# ===============================================================================
-# Env. Setup
-#
 
 # Keep upstart from complaining
 RUN dpkg-divert --local --rename --add /sbin/initctl && \
@@ -45,20 +20,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get -y upgrade
 RUN groupadd -r -g 2000 wordpress; useradd -r -u 2000 -g 2000 -m -c "app account" -d /home/wordpress -s /bin/bash wordpress
 
-# ----------------------------------------------------------
-# Dependencies
-# ----------------------------------------------------------
-
-# Basic Dependencies
-#
-# The basic dependecies includes:
-#
-# - PHP & fpm
-# - MySQL client
-# - curl
-# - Git
-# - pwgen - Open-Source Password Generator
-# - python-setuptools - for `easy_install`
 #
 RUN apt-get install -y mysql-client \
 						php5-fpm \
@@ -93,13 +54,6 @@ RUN apt-get -y install software-properties-common \
 						python-software-properties
 
 
-# ----------------------------------------------------------
-# Nginx
-#
-#   Nginx compiled with `fastcgi_cache` and `fastcgi_cache_purge`
-#
-# @link https://easyengine.io/wordpress-nginx/tutorials/single-site/fastcgi-cache-with-purging/
-# ----------------------------------------------------------
 
 RUN add-apt-repository ppa:rtcamp/nginx && \
 	apt-get update && \
@@ -142,28 +96,9 @@ RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g; s/po
 RUN sed -i -e "s/;daemonize\s*=\s*yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
 
 COPY ./config/php/www.conf	/etc/php5/fpm/pool.d/www.conf
-#RUN sed -i -e "s/listen\s*=\s*\/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g" /etc/php5/fpm/pool.d/www.conf
-#RUN sed -i -e "s/;listen.allowed_clients\s*=\s*127.0.0.1/listen.allowed_clients = 127.0.0.1/g" /etc/php5/fpm/pool.d/www.conf
-
-
-# ----------------------------------------------------------
-# Opcode Config
-# ----------------------------------------------------------
 
 RUN sed -i -e"s/^;opcache.enable\s*=\s*0/opcache.enable = 1/; s/^;opcache.max_accelerated_files\s*=\s*2000/opcache.max_accelerated_files = 4000/" /etc/php5/fpm/php.ini
-#RUN sed -i -e"s/^;opcache.max_accelerated_files\s*=\s*2000/opcache.max_accelerated_files = 4000/" /etc/php5/fpm/php.ini
 
-
-# ===============================================================================
-# Install & Config Supervisor
-#
-# Supervisor is a process manager which makes managing a number of long-running programs a trivial task
-#   by providing a consistent interface through which they can be monitored and controlled.
-#
-# it uses `easy_install` (from `python-setuptools`) to install **supervisor**.
-#
-# @link http://supervisord.org/#
-#
 
 RUN /usr/bin/easy_install supervisor && \
 	/usr/bin/easy_install supervisor-stdout
@@ -177,7 +112,7 @@ COPY  config/supervisord.conf /etc/supervisord.conf
 
 # Get the code of  **latest** version.
 RUN cd /usr/share/nginx/ && \
-    curl -o wp-latest.tar.gz https://wordpress.org/latest.tar.gz && \
+    curl -o wp-latest.tar.gz https://wordpress.org/wordpress-4.9.10.tar.gz && \
     tar -xvf wp-latest.tar.gz && \
     rm wp-latest.tar.gz
 
