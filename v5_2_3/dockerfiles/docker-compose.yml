@@ -16,7 +16,7 @@ services:
          - wp-db:/var/lib/mysql
 
   wordpress:
-    image: trydirect/wordpress:5_0_3
+    image: trydirect/wordpress:5.2.3
     build: build/wordpress
     container_name: wordpress
     restart: always
@@ -24,9 +24,9 @@ services:
     links:
       - wpdb:db
     volumes:
-      - wp:/var/www/html/WordPress-5.0.3
+      - wp:/var/www/html/WordPress-5.2.3
       - ./configs/supervisord/wordpress.conf:/etc/supervisord.conf
-      - ./configs/wordpress/wp-config.php:/var/www/html/Word Press-5.0.3/wp-config.php
+      - ./configs/wordpress/wp-config.php:/var/www/html/Word Press-5.2.3/wp-config.php
       - ./configs/php/php.ini:/etc/php/7.0/fpm/php.ini
     ports:
       - "9000"
