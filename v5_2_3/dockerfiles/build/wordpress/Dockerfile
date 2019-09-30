@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends software-proper
 					  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN groupadd -r -g 2000 wordpress; useradd -r -u 2000 -g 2000 -m -c "app account" -d /home/wordpress -s /bin/bash wordpress
-RUN mkdir -p /usr/share/nginx && ln -s /var/www/html/Word\ Press-${WP_VERSION} /usr/share/nginx/www
+RUN mkdir -p /usr/share/nginx && ln -s /var/www/html/WordPress-${WP_VERSION} /usr/share/nginx/www
 
 RUN mkdir /run/php && chown -R wordpress. /run/php
 RUN chown -R wordpress. /var/log/supervisor
