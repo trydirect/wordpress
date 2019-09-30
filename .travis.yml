@@ -15,7 +15,7 @@ before_install:
 - pip install docker-compose --upgrade
 - docker-compose --version
 install:
-- cd v5_0_3/dockerfiles
+- cd v5_2_3/dockerfiles
 - docker-compose build
 - docker-compose up -d
 - docker-compose ps
@@ -31,7 +31,7 @@ notifications:
     rooms:
     - optimum-team:GycletOWK4Kt95GktwYwfUMp#build
 after_success:
-- cd v5_0_3/dockerfiles
+- cd v5_2_3/dockerfiles
 - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 - docker-compose images
-- docker push trydirect/wordpress:5.0.3
+- docker push trydirect/wordpress:5.2.3
