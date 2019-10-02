@@ -5,11 +5,11 @@
 ![Docker Build](https://img.shields.io/docker/cloud/build/trydirect/wordpress.svg)
 [![Coverage Status](https://coveralls.io/repos/github/trydirect/wordpress/badge.svg?branch=master)](https://coveralls.io/github/trydirect/wordpress?branch=master)
 
-# wordpress 5.0.3
+# wordpress 5.2.3
 Run wordpress with docker-compose
 
 
-- Wordpress 5.0.3
+- Wordpress 5.2.3
 - PHP 7.0
 - Ubuntu 16.04
 
