@@ -14,3 +14,10 @@ Run wordpress with docker-compose
 - Ubuntu 16.04
 
 Docker hub image: https://cloud.docker.com/repository/docker/trydirect/wordpress
+
+
+## Quick deployment to cloud
+##### Amazon AWS, Digital Ocean, Hetzner and others
+[<img src="https://img.shields.io/badge/quick%20deploy|5.0.3-%40try.direct-brightgreen.svg">](https://try.direct/server/user/deploy/IndvcmRwcmVzczUwM3w2fDE1Ig.EAoFeA.nuBfxcNzp4NS_JUaeeZzDwVHjqA/)
+[<img src="https://img.shields.io/badge/quick%20deploy|5.2.3-%40try.direct-brightgreen.svg">](https://try.direct/server/user/deploy/IndvcmRwcmVzc3w2fDE2Ig.EAoFeA.W2ia3RUTgQrPp4O-M1wsmHP5CV4/)
+
