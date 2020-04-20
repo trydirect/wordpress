@@ -1,0 +1,11 @@
+wordpress:
+  build: .
+  environment:
+    SERVER_NAME: localhost
+    DB_HOSTNAME: db
+    DB_DATABASE: wordpress
+    DB_USER: sample
+    DB_PASSWORD: sample
+  ports:
+    - "9000"
+  entrypoint: /usr/bin/supervisord -c /etc/supervisor/supervisord.conf -n
