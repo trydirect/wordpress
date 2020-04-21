@@ -49,9 +49,9 @@ assert mysql.status == 'running'
 mycnf = mysql.exec_run("/usr/sbin/mysqld --verbose  --help")
 # print(mycnf.output.decode())
 mysql_log = mysql.logs()
-print(mysql_log)
+# print(mysql_log)
 assert "Version: '5.7" in mysql_log
-# assert "mysqld: ready for connections" in mysql_log.decode()
+assert "mysqld: ready for connections" in mysql_log.decode()
 
 response = requests.get("http://localhost")
 assert response.status_code == 200
