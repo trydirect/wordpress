@@ -16,7 +16,8 @@ before_install:
 - docker-compose --version
 install:
 - cd v5_4_0/dockerfiles
-- docker-compose build
+- COMPOSE_DOCKER_CLI_BUILD=1 docker build ./build -t trydirect/wordpress:5.4.0-dev --target=dev
+- COMPOSE_DOCKER_CLI_BUILD=1 docker build ./build -t trydirect/pimcore:5.4.0-prod --target=prod
 - docker-compose up -d
 - docker-compose ps
 before_script:
@@ -34,4 +35,5 @@ after_success:
 - cd v5_4_0/dockerfiles
 - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 - docker-compose images
-- docker push trydirect/wordpress:5.4.0
+- docker push trydirect/wordpress:5.4.0-dev
+- docker push trydirect/wordpress:5.4.0-prod
