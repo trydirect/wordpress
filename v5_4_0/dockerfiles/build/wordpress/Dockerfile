@@ -25,6 +25,7 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-in
 COPY ./config/php.ini /usr/local/etc/php/conf.d/10-base.ini
 
 WORKDIR /var/www/html
+RUN ls -la
 
 
 #
