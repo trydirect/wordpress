@@ -18,7 +18,7 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-in
         /tmp/* \
         /usr/local/bin/docker-entrypoint.sh \
         /usr/share/{lintian,info}/* \
-        /usr/src/* \
+        #/usr/src/* \
         /var/cache/man/* \
         /var/lib/apt/lists/* \
     # smoke tests
