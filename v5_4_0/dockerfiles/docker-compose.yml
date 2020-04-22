@@ -18,7 +18,7 @@ services:
       - "3306:3306"
 
   wordpress:
-    image: trydirect/wordpress:5.4.0
+    image: trydirect/wordpress:5.4.0-dev
     build: build/wordpress
     container_name: wordpress
     restart: always
