@@ -4,6 +4,8 @@ FROM wordpress:$WP_VERSION AS base
 
 SHELL ["/bin/bash", "-c"]
 
+RUN ls -la /usr/src/wordpress
+RUN ls -la /var/www/html
 RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-install-suggests \
         cron \
         supervisor \
