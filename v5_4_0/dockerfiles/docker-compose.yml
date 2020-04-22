@@ -15,11 +15,11 @@ services:
     volumes:
          - wp-db:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3306"
 
   wordpress:
     image: trydirect/wordpress:5.4.0-dev
-    build: build/wordpress
+#    build: build/wordpress
     container_name: wordpress
     restart: always
     env_file: .env
