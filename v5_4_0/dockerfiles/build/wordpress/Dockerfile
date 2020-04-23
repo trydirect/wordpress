@@ -4,6 +4,7 @@ FROM wordpress:$WP_VERSION AS base
 
 SHELL ["/bin/bash", "-c"]
 
+WORKDIR /var/www/html
 RUN ls -la /usr/src/wordpress
 RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-install-suggests \
         cron \
@@ -21,12 +22,11 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-in
         /var/cache/man/* \
         /var/lib/apt/lists/* \
     # smoke tests
-    && supervisord --version \
-    && ls -la /var/www/html
+    && supervisord --version
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/10-base.ini
 
-WORKDIR /var/www/html
+RUN ls -la /var/www/html
 #
 # dev stage
 #
