@@ -21,7 +21,7 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-in
         /var/cache/man/* \
         /var/lib/apt/lists/* \
     # smoke tests
-    && supervisord --version
+    && supervisord --version \
     && ls -la /var/www/html
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/10-base.ini
