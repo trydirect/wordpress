@@ -4,12 +4,10 @@ FROM wordpress:$WP_VERSION AS base
 
 SHELL ["/bin/bash", "-c"]
 
-WORKDIR /var/www/html
-RUN ls -la /usr/src/wordpress
 RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-install-suggests \
         cron \
         supervisor \
-    && mv /usr/src/wordpress/* /var/www/html \
+    #&& mv /usr/src/wordpress/* /var/www/html \
     # clean up
     && find /usr/share/doc -depth -type f ! -name copyright|xargs rm || true \
     && find /usr/share/doc -empty|xargs rmdir || true \
@@ -18,20 +16,23 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-in
         /tmp/* \
         /usr/local/bin/docker-entrypoint.sh \
         /usr/share/{lintian,info}/* \
-        /usr/src/* \
+        #/usr/src/* \
         /var/cache/man/* \
         /var/lib/apt/lists/* \
     # smoke tests
     && supervisord --version
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/10-base.ini
-
+WORKDIR /var/www/html
 RUN ls -la /var/www/html
 #
 # dev stage
 #
 FROM base AS dev
 
+RUN groupadd --gid 2000 wordpress \
+    && adduser --shell /bin/true --uid 2000 --gid 2000 --disabled-password --no-create-home --gecos '' wordpress
+COPY --chown=wordpress:wordpress --from=base /usr/src/wordpress/* /var/www/html/
 RUN pecl install \
         xdebug \
     && docker-php-ext-enable \
@@ -42,6 +43,7 @@ RUN pecl install \
       o=$(php -m | grep "xdebug") \
       && test "$o" = "xdebug" \
     )
+RUN ls -la /var/www/html
 
 #
 # prod stage
@@ -50,7 +52,7 @@ FROM base AS prod
 
 RUN groupadd --gid 2000 wordpress \
     && adduser --shell /bin/true --uid 2000 --gid 2000 --disabled-password --no-create-home --gecos '' wordpress \
-    && chown -R wordpress:wordpress /var/www/ \
+#    && chown -R wordpress:wordpress /var/www/ \
     # remove world-writeable permissions except for /tmp/
     && find / -xdev -type d -perm /0002 -exec chmod o-w {} + \
     && find / -xdev -type f -perm /0002 -exec chmod o-w {} + \
@@ -90,6 +92,7 @@ RUN groupadd --gid 2000 wordpress \
     && find /bin /etc /lib /sbin /usr -xdev -type l -exec test ! -e {} \; -delete \
     && rm -rf /root /etc/fstab
 
+COPY --chown=wordpress:wordpress --from=base /usr/src/wordpress/* /var/www/html/
 COPY ./config/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY ./config/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/php.ini /usr/local/etc/php.ini
