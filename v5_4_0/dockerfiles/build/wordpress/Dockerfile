@@ -25,6 +25,8 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-in
     && supervisord --version
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/10-base.ini
+
+WORKDIR /usr/src/wordpress
 COPY --from=base /usr/src/wordpress/* /var/www/html
 
 WORKDIR /var/www/html
