@@ -5,7 +5,6 @@ FROM wordpress:$WP_VERSION AS base
 SHELL ["/bin/bash", "-c"]
 
 RUN ls -la /usr/src/wordpress
-RUN ls -la /var/www/html
 RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-install-suggests \
         cron \
         supervisor \
@@ -23,16 +22,11 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-in
         /var/lib/apt/lists/* \
     # smoke tests
     && supervisord --version
+    && ls -la /var/www/html
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/10-base.ini
 
-WORKDIR /usr/src/wordpress
-COPY --from=base /usr/src/wordpress/* /var/www/html
-
 WORKDIR /var/www/html
-RUN ls -la
-
-
 #
 # dev stage
 #
@@ -48,7 +42,6 @@ RUN pecl install \
       o=$(php -m | grep "xdebug") \
       && test "$o" = "xdebug" \
     )
-
 
 #
 # prod stage
@@ -102,3 +95,5 @@ COPY ./config/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/php.ini /usr/local/etc/php.ini
 COPY ./config/supervisord.conf /etc/supervisor/supervisord.conf
 COPY --chown=wordpress:wordpress ./config/wp-config.php /var/www/html/wp-config.php
+
+RUN ls -la /var/www/html
