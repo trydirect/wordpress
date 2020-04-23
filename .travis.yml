@@ -35,3 +35,6 @@ after_success:
 - docker-compose images
 - docker push trydirect/wordpress:5.4.0-dev
 - docker push trydirect/wordpress:5.4.0-prod
+- echo "$FRANKFURT_DOCKER_PASS" | docker login "$FRANKFURT_REGISTRY" -u "$FRANKFURT_DOCKER_USER" --password-stdin
+- docker push $FRANKFURT_REGISTRYtrydirect/wordpress:5.4.0-dev
+- docker push $FRANKFURT_REGISTRYtrydirect/wordpress:5.4.0-prod
