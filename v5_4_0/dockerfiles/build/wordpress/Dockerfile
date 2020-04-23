@@ -18,13 +18,14 @@ RUN apt-get update -qq && apt-get install -qq -y --no-install-recommends --no-in
         /tmp/* \
         /usr/local/bin/docker-entrypoint.sh \
         /usr/share/{lintian,info}/* \
-        #/usr/src/* \
+        /usr/src/* \
         /var/cache/man/* \
         /var/lib/apt/lists/* \
     # smoke tests
     && supervisord --version
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/10-base.ini
+COPY --from=base /usr/src/wordpress/* /var/www/html
 
 WORKDIR /var/www/html
 RUN ls -la
