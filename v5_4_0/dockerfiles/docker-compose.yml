@@ -19,10 +19,12 @@ services:
 
   wordpress:
     image: trydirect/wordpress:5.4.0-dev
-#    build: build/wordpress
+    build: build/wordpress
     container_name: wordpress
     restart: always
     env_file: .env
+    links:
+      - wpdb
     environment:
       - "XDEBUG_PROFILER_ENABLED=${XDEBUG_PROFILER_ENABLED:-0}"
       - "XDEBUG_REMOTE_AUTOSTART=${XDEBUG_REMOTE_AUTOSTART:-1}"

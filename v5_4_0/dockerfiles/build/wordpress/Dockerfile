@@ -32,7 +32,7 @@ FROM base AS dev
 
 RUN groupadd --gid 2000 wordpress \
     && adduser --shell /bin/true --uid 2000 --gid 2000 --disabled-password --no-create-home --gecos '' wordpress
-COPY --chown=wordpress:wordpress --from=base /usr/src/wordpress/* /var/www/html/
+COPY --chown=wordpress:wordpress --from=base /usr/src/wordpress /var/www/html/
 RUN pecl install \
         xdebug \
     && docker-php-ext-enable \
@@ -92,7 +92,7 @@ RUN groupadd --gid 2000 wordpress \
     && find /bin /etc /lib /sbin /usr -xdev -type l -exec test ! -e {} \; -delete \
     && rm -rf /root /etc/fstab
 
-COPY --chown=wordpress:wordpress --from=base /usr/src/wordpress/* /var/www/html/
+COPY --chown=wordpress:wordpress --from=base /usr/src/wordpress /var/www/html/
 COPY ./config/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY ./config/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./config/php.ini /usr/local/etc/php.ini
