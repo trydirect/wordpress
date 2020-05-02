@@ -28,13 +28,10 @@ script:
 notifications:
   slack:
     rooms:
-    - optimum-team:GycletOWK4Kt95GktwYwfUMp#build
+    - optimum-team:"$SLACK"#build
 after_success:
 - cd v5_4_0/dockerfiles
 - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 - docker-compose images
 - docker push trydirect/wordpress:5.4.0-dev
 - docker push trydirect/wordpress:5.4.0-prod
-- echo "$FRANKFURT_DOCKER_PASS" | docker login "$FRANKFURT_REGISTRY" -u "$FRANKFURT_DOCKER_USER" --password-stdin
-- docker push $FRANKFURT_REGISTRYtrydirect/wordpress:5.4.0-dev
-- docker push $FRANKFURT_REGISTRYtrydirect/wordpress:5.4.0-prod
